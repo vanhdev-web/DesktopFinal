@@ -36,8 +36,8 @@ namespace OOP.Models
 
         public virtual List<Task> Tasks { get; set; } = new List<Task>();
 
-        [NotMapped]       
-        
+        [NotMapped]
+
         public static User LoggedInUser { get; set; } // Đây là người dùng đã đăng nhập, ví dụ "admin"
 
         public User() { }

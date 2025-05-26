@@ -6,14 +6,14 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-
 using System.IO;
 using System.Xml;
 using OOP.Usercontrols;
 using System.Reflection;
-
+using ModelUser = OOP.Models.User;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using OOP.Forms;
 
 namespace OOP
 {
@@ -157,7 +157,7 @@ namespace OOP
                 {
                     projectName = inputName,
                     projectDescription = projectDescription,
-                    AdminID = User.LoggedInUser.ID
+                    AdminID = ModelUser.LoggedInUser.ID
                 };
 
                 dbContext.Projects.Add(newProject);
@@ -306,11 +306,11 @@ namespace OOP
         {
             comboBox1.Items.Clear();
 
-            if (User.LoggedInUser == null) return;
+            if (ModelUser.LoggedInUser == null) return;
 
             using (var context = new TaskManagementDBContext())
             {
-                int userId = User.LoggedInUser.ID;
+                int userId = ModelUser.LoggedInUser.ID;
 
                 // lấy danh sách project mà người dùng là admin
                 var adminProjects = from p in context.Projects

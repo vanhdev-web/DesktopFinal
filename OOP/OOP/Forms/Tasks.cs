@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using OOP.Forms;
 using OOP.Models;
+using ModelUser = OOP.Models.User;
 using OOP.Services;
 using OOP.Usercontrols;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace OOP
         private ProjectManager projectManager = new ProjectManager();
         public List<AbaseTask> GetUserTasks()
         {
-            List<Project> userProjects = projectManager.FindProjectsByMember(User.LoggedInUser);
+            List<Project> userProjects = projectManager.FindProjectsByMember(ModelUser.LoggedInUser);
             List<AbaseTask> userTasks = new List<AbaseTask>();
 
             if (userProjects.Count == 0)
@@ -31,7 +32,7 @@ namespace OOP
 
             using (var db = new TaskManagementDBContext())
             {
-                int userId = User.LoggedInUser.ID;
+                int userId = ModelUser.LoggedInUser.ID;
 
                 // lấy các task mà được assign cho user
                 var tasks = db.Tasks
@@ -107,7 +108,7 @@ namespace OOP
             Console.WriteLine(mnuList.Checked);
         }
         private List<Project> projects = new List<Project>();
-        private List<User> users = new List<User>();
+        private List<ModelUser> users = new List<ModelUser>();
 
         private void LoadTasks(List<AbaseTask> tasks)
         {
@@ -163,7 +164,7 @@ namespace OOP
             List<AbaseTask> taskslistother = new List<AbaseTask>();
             foreach (AbaseTask task in (GetUserTasks()))
             {
-                    taskslistother.Add(task);
+                taskslistother.Add(task);
             }
             taskslistother.Sort();
             taskslistother.Reverse();
@@ -197,14 +198,14 @@ namespace OOP
             using (var dbcontext = new TaskManagementDBContext())
             {
                 var task = (from t in dbcontext.Tasks
-                            where t.AssignedTo == User.LoggedInUser.ID && t.status == "Finished"
+                            where t.AssignedTo == ModelUser.LoggedInUser.ID && t.status == "Finished"
                             select t).ToList<AbaseTask>();
                 var meetings = (from m in dbcontext.Meetings
-                               where m.AssignedTo == User.LoggedInUser.ID && m.status == "Finished"
-                               select m).ToList<AbaseTask>();
+                                where m.AssignedTo == ModelUser.LoggedInUser.ID && m.status == "Finished"
+                                select m).ToList<AbaseTask>();
                 var milestones = (from ms in dbcontext.Milestones
-                                 where ms.AssignedTo == User.LoggedInUser.ID && ms.status == "Finished"
-                                 select ms).ToList<AbaseTask>();
+                                  where ms.AssignedTo == ModelUser.LoggedInUser.ID && ms.status == "Finished"
+                                  select ms).ToList<AbaseTask>();
                 var taskslistother = task.Union(meetings).Union(milestones).ToList();
 
 
@@ -229,13 +230,13 @@ namespace OOP
             using (var dbcontext = new TaskManagementDBContext())
             {
                 var task = (from t in dbcontext.Tasks
-                            where t.AssignedTo == User.LoggedInUser.ID && t.status != "Finished"
+                            where t.AssignedTo == ModelUser.LoggedInUser.ID && t.status != "Finished"
                             select t).ToList<AbaseTask>();
                 var meetings = (from m in dbcontext.Meetings
-                                where m.AssignedTo == User.LoggedInUser.ID && m.status != "Finished"
+                                where m.AssignedTo == ModelUser.LoggedInUser.ID && m.status != "Finished"
                                 select m).ToList<AbaseTask>();
                 var milestones = (from ms in dbcontext.Milestones
-                                  where ms.AssignedTo == User.LoggedInUser.ID && ms.status != "Finished"
+                                  where ms.AssignedTo == ModelUser.LoggedInUser.ID && ms.status != "Finished"
                                   select ms).ToList<AbaseTask>();
                 var taskslistother = task.Union(meetings).Union(milestones).ToList();
 
@@ -276,7 +277,7 @@ namespace OOP
 
         private void lblAddoption_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(User.LoggedInUser.Username);
+            Console.WriteLine(ModelUser.LoggedInUser.Username);
             ctmsAddoption.Show(btnAddTask, new Point(20, btnMore.Height));
 
         }
