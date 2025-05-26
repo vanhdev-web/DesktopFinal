@@ -40,5 +40,8 @@
     <Compile Update="Forms\Tasks.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\User.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
