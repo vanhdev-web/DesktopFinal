@@ -45,7 +45,7 @@ namespace OOP.Usercontrols
             }
         }
 
-        private void checkBox_Click(object sender, EventArgs e)
+        private async void checkBox_Click(object sender, EventArgs e)
         {
             using (var dbcontext = new TaskManagementDBContext())
             {
@@ -56,6 +56,9 @@ namespace OOP.Usercontrols
                 else
                 {
                     milestone.status = "Finished"; // Cập nhật trạng thái Meeting gốc
+                    ActivityLogService activityLogService = new ActivityLogService(dbcontext);
+                    await activityLogService.LogActivityAsync(userId: null, objectType: "Task", objectId: milestone.taskID, action: "Finish Task", details: $"{User.LoggedInUser} đã hoàn thành cột mốc {milestone.taskName} lúc {DateTime.Now}");
+                    MessageBox.Show("Activitlog hoàn thành milestone");
                 }
                 dbcontext.Milestones.Attach(milestone);
                 dbcontext.Entry(milestone).State = EntityState.Modified;

@@ -29,7 +29,7 @@ namespace OOP.Models
         public string projectDescription { get; set; }
 
 
-        public List<Task> tasks = new List<Task>();
+        public List<AbaseTask> tasks = new List<AbaseTask>();
 
 
         public int AdminID { get; set; }

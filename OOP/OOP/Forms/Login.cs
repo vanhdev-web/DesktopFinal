@@ -5,6 +5,7 @@ using OOP.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using OOP.Services;
 
 namespace OOP
 {
@@ -15,7 +16,7 @@ namespace OOP
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text;
             string password = txtPassword.Text;
@@ -48,6 +49,11 @@ namespace OOP
                     Home mainForm = new Home();
                     mainForm.Show();
                     this.Hide();
+
+                    //activitylog đăng nhập
+                    ActivityLogService activityLogService = new ActivityLogService(context);
+                    await activityLogService.LogActivityAsync(userId: null, objectType: "User", objectId: User.LoggedInUser.ID, action: "LoggedIn", details: $"User Name : {User.LoggedInUser.Username}");
+                    MessageBox.Show("Activitlog đăng nhập");
                 }
                 else
                 {

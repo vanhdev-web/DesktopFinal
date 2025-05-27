@@ -52,7 +52,7 @@ namespace OOP.Usercontrols
 
         }
 
-        private void checkBox_Click(object sender, EventArgs e)
+        private async void checkBox_Click(object sender, EventArgs e)
         {
            using (var dbcontext = new TaskManagementDBContext())
             {
@@ -69,6 +69,9 @@ namespace OOP.Usercontrols
 
 
                     task.status = "Finished"; // Cập nhật trạng thái Task gốc
+                    ActivityLogService activityLogService = new ActivityLogService(dbcontext);
+                    await activityLogService.LogActivityAsync(userId: null, objectType: "Task", objectId:task.taskID, action: "Finish Task", details: $"{User.LoggedInUser.Username} đã hoàn thành task {task.taskName} lúc {DateTime.Now}");
+                    MessageBox.Show("Activitlog hoàn thành task");
                 }
                 dbcontext.Tasks.Attach(task);
                 dbcontext.Entry(task).State = EntityState.Modified;

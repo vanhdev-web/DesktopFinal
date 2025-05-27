@@ -336,3 +336,4 @@ C:\Users\dovie\OneDrive\Desktop\DesktopFinal\OOP\OOP\obj\Debug\net8.0-windows\re
 C:\Users\dovie\OneDrive\Desktop\DesktopFinal\OOP\OOP\obj\Debug\net8.0-windows\OOP.pdb
 C:\Users\dovie\OneDrive\Desktop\DesktopFinal\OOP\OOP\obj\Debug\net8.0-windows\OOP.genruntimeconfig.cache
 C:\Users\dovie\OneDrive\Desktop\DesktopFinal\OOP\OOP\obj\Debug\net8.0-windows\ref\OOP.dll
+C:\Users\dovie\OneDrive\Desktop\DesktopFinal\OOP\OOP\obj\Debug\net8.0-windows\OOP.Forms.ProjectActivityFeed.resources

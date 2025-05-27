@@ -39,7 +39,7 @@ namespace OOP.Forms
         }
 
 
-        private void btnMeetingConfirm_Click(object sender, EventArgs e)
+        private async void btnMeetingConfirm_Click(object sender, EventArgs e)
         {
 
             //string location = txtbMeetingLocation.Text;
@@ -202,7 +202,14 @@ namespace OOP.Forms
                     }
                 }
 
-    
+                var project = (from p in dbcontext.Projects
+                               where p.projectID == projectId
+                               select p).FirstOrDefault();
+                ActivityLogService activityLogService = new ActivityLogService(dbcontext);
+                await activityLogService.LogActivityAsync(userId: User.LoggedInUser.ID, objectType: "Meeting", objectId: meeting.taskID, action: "Create Meeting", details: $"{User.LoggedInUser.Username} đã tạo một cuộc họp {meeting.taskName} cho dự án {project.projectName} ");
+                MessageBox.Show("Activitlog thêm meeting");
+
+
                 //newMeeting = new Meeting(tasknewID, taskName, status, meetingTime, hour, location, members, projectName, 0);
                 DialogResult = DialogResult.OK;
                 Close();

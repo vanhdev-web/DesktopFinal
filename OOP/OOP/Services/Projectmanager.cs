@@ -91,7 +91,7 @@ namespace OOP.Services
             }
         }
 
-        public void DeleteProject(int projectID)
+        public async void DeleteProject(int projectID)
         {
             if (Projects == null || Projects.Count == 0)
             {
@@ -115,6 +115,9 @@ namespace OOP.Services
                     LoadProjectsFromFile();
 
                     Console.WriteLine($"Project {projectID} đã bị xóa.");
+                    ActivityLogService activityLogService = new ActivityLogService(context);
+                    await activityLogService.LogActivityAsync(userId: User.LoggedInUser.ID, objectType: "Project", objectId: projectToRemove.projectID, action: "Delete Project", details: $"Project Name : {projectToRemove.projectName} ");
+                    MessageBox.Show("Activitlog xóa project");
                 }
                 else
                 {

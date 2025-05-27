@@ -137,7 +137,7 @@ namespace OOP
 
         }
 
-        private void btnCreateProject_Click(object sender, EventArgs e)
+        private async void btnCreateProject_Click(object sender, EventArgs e)
         {
             string inputName = Prompt.ShowDialog("Nhập tên dự án:", "Tạo Project");
 
@@ -165,6 +165,9 @@ namespace OOP
 
                 // Cập nhật ComboBox
                 comboBox1.Items.Add($"{newProject.projectID} - {newProject.projectName}");
+                ActivityLogService activityLogService = new ActivityLogService(dbContext);
+                await activityLogService.LogActivityAsync(userId: User.LoggedInUser.ID, objectType: "Project", objectId: newProject.projectID, action: "Create Project", details: $"{User.LoggedInUser.Username} đã tạo dự án {newProject.projectName} lúc {DateTime.Now}");
+                MessageBox.Show("Activitlog tạo project");
 
                 MessageBox.Show("Tạo dự án thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -216,7 +219,7 @@ namespace OOP
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private async void button1_Click_1(object sender, EventArgs e)
         {
             if (comboBox1.SelectedItem == null)
             {
@@ -295,6 +298,9 @@ namespace OOP
                     dbContext.SaveChanges();
                     //selectedProject.members.Add(user);
                     DisplayMembers(selectedProject); // cập nhật giao diện
+                    ActivityLogService activityLogService = new ActivityLogService(dbContext);
+                    await activityLogService.LogActivityAsync(userId: User.LoggedInUser.ID, objectType: "Project", objectId: selectedProject.projectID, action: "Add Member", details: $"{User.LoggedInUser.Username} đã mời {user.Username} vào dự án {selectedProject.projectName} ");
+                    MessageBox.Show("Activitlog thêm thành viên");
                     MessageBox.Show($"Đã thêm {newMember} vào dự án dưới dạng một nhiệm vụ mặc định.");
                 }
             }
@@ -387,6 +393,7 @@ namespace OOP
                     }
 
                     selectedProjectID = -1; // Reset ID sau khi xóa
+
                     MessageBox.Show("Project đã được xóa!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)

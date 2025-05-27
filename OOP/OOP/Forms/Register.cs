@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using OOP.Models;
 using System.Linq;
+using OOP.Services;
 
 namespace OOP
 {
@@ -19,7 +20,7 @@ namespace OOP
             InitializeComponent();
         }
 
-        private void btnRegister_Click(object sender, EventArgs e)
+        private async void btnRegister_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
@@ -69,6 +70,12 @@ namespace OOP
 
                 db.Users.Add(newUser);
                 db.SaveChanges();
+
+                //Activitylog đăng ký
+                ActivityLogService activityLogService = new ActivityLogService(db);
+                await activityLogService.LogActivityAsync(userId: null, objectType: "User", objectId: newUser.ID, action: "Register", details: $"User Name :{newUser.Username} Email : {newUser.Email} ");
+                MessageBox.Show("Activitlog đăng ký");
+          
 
                 NotificationManager.Instance.SendAccountNotification(newUser.ID);
                 MessageBox.Show("Đăng ký thành công!");

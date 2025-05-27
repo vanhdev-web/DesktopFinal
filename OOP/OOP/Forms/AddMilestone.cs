@@ -39,7 +39,7 @@ namespace OOP.Forms
 
         }
 
-        private void btnMilestoneConfirm_Click(object sender, EventArgs e)
+        private async void btnMilestoneConfirm_Click(object sender, EventArgs e)
         {
 
 
@@ -135,6 +135,12 @@ namespace OOP.Forms
                     }
                 }
 
+                var project =  (from p in dbcontext.Projects
+                               where p.projectID == projectId
+                               select p).FirstOrDefault();
+                ActivityLogService activityLogService = new ActivityLogService(dbcontext);
+                await activityLogService.LogActivityAsync(userId: User.LoggedInUser.ID, objectType: "MileStone", objectId: mileStone.taskID, action: "Create Milestone", details: $"{User.LoggedInUser.Username} đã tạo một cột mộc {mileStone.taskName} cho dự án {project.projectName}");
+                MessageBox.Show("Activitlog thêm milestone");
 
 
                 //milestone = new Milestone(tasknewID, taskName, "UnFinished", deadline, null, projectName, 0);

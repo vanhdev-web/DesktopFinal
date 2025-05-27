@@ -32,7 +32,7 @@ namespace OOP.Services
         }
 
         // ✅ Thêm task mới
-        public void AddTask(AbaseTask task)
+        public async void AddTask(AbaseTask task)
         {
             if (task == null) return;
 
@@ -43,6 +43,17 @@ namespace OOP.Services
                 {
                     db.Tasks.Add(newtask);
                     db.SaveChanges();
+                    var AssingedUser = (from u in db.Users
+                               where u.ID == newtask.AssignedTo
+                               select u).FirstOrDefault();
+                    var project = (from p in db.Projects
+                                   where p.projectID == newtask.ProjectID
+                                   select p).FirstOrDefault();
+
+                    ActivityLogService activityLogService = new ActivityLogService(db);
+                    await activityLogService.LogActivityAsync(userId: User.LoggedInUser.ID, objectType: "Task", objectId: newtask.taskID, action: "Create Task", details: $"{User.LoggedInUser.Username} đã tạo task {newtask.taskName} trong dự án{project.projectName} cho {AssingedUser.Username}");
+                    MessageBox.Show("Activitlog thêm task");
+
                 }
                 MessageBox.Show("Chuẩn bị ra");
 

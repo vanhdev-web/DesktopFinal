@@ -38,20 +38,10 @@ namespace OOP.Models
 
      
 
-        private IUpdateStatus updateStatus;
-        public void SetUpdateStatus(IUpdateStatus updateStatus)
-        {
-            this.updateStatus = updateStatus;
-        }
-        public IUpdateStatus GetUpdateStatus()
-        {
-            return this.updateStatus;
-        }
+      
+       
 
-        public void UpdateStatus()
-        {
-            this.status = updateStatus.UpdateStatus(deadline);
-        }
+      
 
         public AbaseTask( string taskName, string status, DateTime deadline,  int assignedTo)
         {

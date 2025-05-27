@@ -20,6 +20,7 @@ namespace OOP.Models
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<MeetingMemberManagement> MeetingMemberManagements { get; set; }    
         public DbSet<MilestoneMemberManagement> MilestoneMemberManagements { get; set; }
+        public DbSet<ActivityLog> ActivityLogs { get; set; }
 
 
 
